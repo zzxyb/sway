@@ -128,7 +128,8 @@ static bool is_privileged(const struct wl_global *global) {
 		global == server.input->virtual_pointer->global ||
 		global == server.input->transient_seat_manager->global ||
 		global == server.xdg_output_manager_v1->global ||
-		global == server.workspace_manager_v1->global;
+		global == server.workspace_manager_v1->global ||
+		global == server.workspace_image_capture_global;
 }
 
 static bool filter_global(const struct wl_client *client,
@@ -484,6 +485,9 @@ bool server_init(struct sway_server *server) {
 	}
 
 	if (!sway_session_lock_init()) {
+		return false;
+	}
+	if (!sway_workspace_image_capture_init()) {
 		return false;
 	}
 	if (!sway_ext_workspace_init()) {

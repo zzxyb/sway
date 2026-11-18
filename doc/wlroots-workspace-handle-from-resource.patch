@@ -1,0 +1,29 @@
+--- a/include/wlr/types/wlr_ext_workspace_v1.h
++++ b/include/wlr/types/wlr_ext_workspace_v1.h
+@@ -109,6 +109,10 @@
+ 	} WLR_PRIVATE;
+ };
+ 
++/** Returns NULL for an inert workspace resource. */
++struct wlr_ext_workspace_handle_v1 *wlr_ext_workspace_handle_v1_from_resource(
++	struct wl_resource *resource);
++
+ struct wlr_ext_workspace_manager_v1 *wlr_ext_workspace_manager_v1_create(
+ 	struct wl_display *display, uint32_t version);
+ 
+--- a/types/wlr_ext_workspace_v1.c
++++ b/types/wlr_ext_workspace_v1.c
+@@ -59,6 +59,13 @@
+ 	assert(wl_resource_instance_of(resource,
+ 		&ext_workspace_handle_v1_interface, &workspace_impl));
+ 	return wl_resource_get_user_data(resource);
++}
++
++struct wlr_ext_workspace_handle_v1 *wlr_ext_workspace_handle_v1_from_resource(
++		struct wl_resource *resource) {
++	struct wlr_ext_workspace_v1_resource *workspace_res =
++		workspace_resource_from_resource(resource);
++	return workspace_res ? workspace_res->workspace : NULL;
+ }
+ 
+ static const struct ext_workspace_manager_v1_interface manager_impl;

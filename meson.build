@@ -47,6 +47,17 @@ subproject(
 	version: wlroots_version,
 )
 wlroots = dependency('wlroots-0.21', version: wlroots_version, fallback: 'wlroots')
+if not cc.has_function('wlr_ext_workspace_handle_v1_from_resource',
+	prefix: '#define WLR_USE_UNSTABLE\n#include <wlr/types/wlr_ext_workspace_v1.h>',
+	dependencies: wlroots)
+	error('Workspace capture requires the wlroots accessor patch in doc/workspace-image-capture.md')
+endif
+if not cc.has_function('wlr_scene_tree_capture_render',
+	prefix: '#define WLR_USE_UNSTABLE\n#include <wlr/types/wlr_ext_image_capture_source_v1.h>',
+	dependencies: wlroots)
+	error('Workspace capture requires wlroots with scene tree capture support')
+endif
+
 wlroots_features = {
 	'xwayland': false,
 	'libinput_backend': false,

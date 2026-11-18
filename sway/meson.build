@@ -16,6 +16,7 @@ sway_sources = files(
 	'xdg_decoration.c',
 
 	'desktop/idle_inhibit_v1.c',
+	'desktop/workspace_image_capture.c',
 	'desktop/layer_shell.c',
 	'desktop/output.c',
 	'desktop/tearing.c',

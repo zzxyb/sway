@@ -7,6 +7,10 @@ wayland_scanner = find_program(
 )
 
 protocols = [
+	'ext-workspace-image-capture-source-v1.xml',
+	wl_protocol_dir / 'staging/ext-workspace/ext-workspace-v1.xml',
+	wl_protocol_dir / 'staging/ext-image-capture-source/ext-image-capture-source-v1.xml',
+	wl_protocol_dir / 'staging/ext-foreign-toplevel-list/ext-foreign-toplevel-list-v1.xml',
 	wl_protocol_dir / 'stable/tablet/tablet-v2.xml',
 	wl_protocol_dir / 'stable/xdg-shell/xdg-shell.xml',
 	wl_protocol_dir / 'staging/cursor-shape/cursor-shape-v1.xml',

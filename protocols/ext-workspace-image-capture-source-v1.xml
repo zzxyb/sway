@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<protocol name="ext_workspace_image_capture_source_v1">
+  <copyright>
+    Copyright © 2025 YaoBing Xiao
+
+    Permission is hereby granted, free of charge, to any person obtaining a
+    copy of this software and associated documentation files (the "Software"),
+    to deal in the Software without restriction, including without limitation
+    the rights to use, copy, modify, merge, publish, distribute, sublicense,
+    and/or sell copies of the Software, and to permit persons to whom the
+    Software is furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice (including the next
+    paragraph) shall be included in all copies or substantial portions of the
+    Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+    THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+    DEALINGS IN THE SOFTWARE.
+  </copyright>
+
+  <description summary="image capture sources for workspaces">
+    This protocol extends ext_image_capture_source_v1 with a source type for
+    workspaces represented by ext_workspace_handle_v1 objects.
+
+    It only creates image capture source objects. Capturing images from these
+    sources requires a separate protocol, such as ext_image_copy_capture_v1.
+  </description>
+
+  <interface name="ext_workspace_image_capture_source_v1" version="1">
+    <description summary="image capture source manager for workspaces">
+      A manager for creating image capture source objects for
+      ext_workspace_handle_v1 objects.
+    </description>
+
+    <request name="create_source">
+      <description summary="create source object for workspace">
+        Creates an image capture source for the workspace represented by
+        workspace_handle.
+
+        Captured images must represent the workspace as if it were active in
+        its workspace group, even when it is inactive or not visible to the
+        user. Creating or capturing this source must not activate the workspace
+        or otherwise change which workspace is displayed to the user.
+
+        The source represents the composited view of the workspace, rather
+        than a collection of images of individual windows. Windows may occlude
+        one another. The compositor may omit content according to its capture
+        policy, including protected content, panels, docks, desktop backgrounds,
+        and overlays. Cursor capture is governed by the protocol used to
+        capture images from the source.
+      </description>
+      <arg name="source" type="new_id" interface="ext_image_capture_source_v1"/>
+      <arg name="workspace_handle" type="object" interface="ext_workspace_handle_v1"/>
+    </request>
+
+    <request name="destroy" type="destructor">
+      <description summary="delete this object">
+        Destroys the workspace image capture source. This request may be sent at any time
+        by the client.
+      </description>
+    </request>
+  </interface>
+</protocol>

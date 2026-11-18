@@ -9,6 +9,7 @@
 #include "sway/tree/node.h"
 
 struct sway_view;
+struct sway_workspace_image_capture;
 
 struct sway_workspace_state {
 	struct sway_container *fullscreen;
@@ -24,6 +25,7 @@ struct sway_workspace_state {
 };
 
 struct sway_workspace {
+	struct sway_workspace_image_capture *image_capture;
 	struct sway_node node;
 
 	struct {
@@ -162,6 +164,7 @@ void workspace_squash(struct sway_workspace *workspace);
 void workspace_move_to_output(struct sway_workspace *workspace,
 		struct sway_output *output);
 
+bool sway_workspace_image_capture_init(void);
 bool sway_ext_workspace_init(void);
 void sway_ext_workspace_output_enable(struct sway_output *output);
 void sway_ext_workspace_output_disable(struct sway_output *output);
